@@ -7,6 +7,10 @@ Created on Thu Sep 15 11:15:47 2022
 pip install spacy
 pip install spacypdfreader
 python -m spacy download es_core_news_sm
+
+Cambios:
+        - cambniar append por concat 
+        - revisar problemas con nombres para otros proveedores
 """
 import os
 import spacy
@@ -14,6 +18,7 @@ from spacypdfreader import pdf_reader
 import pandas as pd
 from datetime import datetime
 import time
+import re
 nlp = spacy.load('es_core_news_sm')
 
 start = datetime.now() # inicio del cod ----
@@ -45,9 +50,17 @@ for infolder_pacientes in os.listdir(data_path):
                     
                     doc = pdf_reader(data_path+folder_paciente+"/"+folder_prestador+"/"+pdf, nlp) #pru
                     nombre_pdf = pdf
-                    paciente = os.path.splitext(nombre_pdf)[0]
                     
-                    id_paciente = paciente.split("_")[1] # ----------------------- id
+                    if folder_prestador =="Bienestar":
+                        paciente = os.path.splitext(nombre_pdf)[0]
+                        id_paciente = paciente.split("_")[1] # ----------------------- id
+                        
+                    if folder_prestador !="Bienestar":
+                        paciente = os.path.splitext(nombre_pdf)[0]
+                        id_paciente = paciente.split("_")[0] # ----------------------- id
+                        id_paciente = str([int(s) for s in re.findall(r'-?\d+\.?\d*', str(id_paciente))][0])
+                    
+                    
                     ruta_pdf = doc._.pdf_file_name       # ----------------------- ruta_pdf
                     tot_paginas = doc[-1]._.page_number  # ----------------------- numero tot paginas
                     pagina = 0
