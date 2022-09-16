@@ -67,11 +67,8 @@ for infolder_pacientes in os.listdir(data_path):
                     
                     for pagina in range(doc[-1]._.page_number):
                         pagina = pagina +1               # ----------------------- pagina
-                        # print("_______________ inicio _________________")
-                        # print("pagina: " + str(pagina))
                         text = str(doc._.page(pagina))
                         texto_pag  = [text]              # ----------------------- texto
-                        # print(texto_pag)
                         
                         d = {'id_paciente':int(id_paciente),
                              'Prestador': folder_prestador,
@@ -82,9 +79,6 @@ for infolder_pacientes in os.listdir(data_path):
                         
                         df = df.append(d,ignore_index=True)
                         df.to_excel(excel_writer = r"D:\Users\WS-012\Desktop\P_Colmedica\estructura\out\output.xlsx" ,index = False, engine='xlsxwriter') 
-                        
-                        # print("_______________ fin _________________")
-                        # print("                                        ")
                         
   
                 print("----------------------------")
@@ -142,10 +136,4 @@ print(f"El tiempo de ejecucion [hh:mm:ss.ms] is {end - start}")
 # # Get all of the text from a specific PDF page.
 # pag = doc._.page(0)     # 'able to display the destination page (unless...'
 # pag = doc._.page(11)  
-# pag
-
-
-        
-   
-   
-                    
+# pag            
